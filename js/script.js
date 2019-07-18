@@ -3,7 +3,6 @@
 const students = document.querySelectorAll(".student-item");
 // itemsPerPage stays at a consistent 10 to be used in functions later on
 const itemsPerPage = 10;
-console.log(students);
 
 function showPage(list, page) {
   //Dynamically initializes startIndex and endIndex variables based which page number is inputted
@@ -19,11 +18,6 @@ function showPage(list, page) {
   }
 }
 
-
-/***
-   Create the `appendPageLinks function` to generate, append, and add
-   functionality to the pagination buttons.
-***/
 function appendPageLinks(list) {
   // Added Conditional so that no extra pagination bars are created if one already existed
   if(document.querySelector('.pagination') != null){
@@ -72,25 +66,51 @@ function appendPageLinks(list) {
 }
 
 function searchField() {
+  // Creates div to store search bar
   let div = document.createElement('div');
   div.setAttribute('class', 'student-search');
   document.querySelector('.page-header').appendChild(div);
+  // Creates search bar and sets placeholder property
   div.innerHTML = '<input placeholder="Search for students..."><button>Search</button>';
   const input = document.querySelector('input');
-  input.oninput = function (e) {
+  // oninput value is updated with a function so the results update with each input change
+  input.onkeyup = function (e) {
+      // Initializes studentNames to be looped over to compare names
       let studentNames = document.querySelectorAll('h3');
+      // Initializing searchResults to be used as an array to update pagination links after for loop
       let searchResults = [];
-      //console.log(studentNames);
+
       for(studentName of studentNames){
-        //console.log(studentName.textContent);
-        if(studentName.textContent.includes(e.target.value)) {
+        // Lower cases both the student's name and the inputted value and compares
+        if(studentName.textContent.toLowerCase().includes((e.target.value).toLowerCase())) {
+          // If there's a match, it sets the display property on the student item to show
           studentName.parentNode.parentElement.style.display = '';
+          // Also pushes the value into the array to be used for pagination afer loop closes
           searchResults.push(studentName.textContent);
         } else {
           studentName.parentNode.parentElement.style.display = 'none';
         }
       }
-      appendPageLinks(searchResults);
+      // After for loop, checks to see if the search results array is empty
+      if(searchResults.length === 0) {
+        // Checking to see if the noResults message already exists before creating a new one
+        if(document.querySelector('.no-result') === null) {
+          let noResults = document.createElement('div');
+          noResults.setAttribute('class', 'no-results');
+          noResults.textContent = "Sorry, no results found";
+          document.querySelector(".student-list").appendChild(noResults);
+        }
+      } else {
+        // Checking to see if noResults exists before removing it
+        if(document.querySelector('.no-results') != null) {
+          let noResults = document.querySelector('.no-results');
+          document.querySelector(".student-list").removeChild(noResults);
+        }
+        // Updates each list to update the links to reflect how many results are returned
+        appendPageLinks(searchResults);
+        // Stimulates mouse click to update and only show 10 results
+        document.querySelector('.active').click();
+      }
     }
 }
 
@@ -99,8 +119,3 @@ showPage(students, 1);
 searchField();
 //initializes the links with their behavior and existence
 appendPageLinks(students);
-
-
-
-
-// Remember to delete the comments that came with this file, and replace them with your own code comments.
