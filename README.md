@@ -3,3 +3,5 @@
 
 # Overview
 This project uses Javascript to take a list of students written in HTML and filter them into groups of 10 for easier reading. These groups are seperated into different pages.
+
+# showPage()
