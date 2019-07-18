@@ -25,7 +25,12 @@ function showPage(list, page) {
    functionality to the pagination buttons.
 ***/
 function appendPageLinks(list) {
-  //Initializes and attaches div and ul elements with the div element being assigned class, 'pagination'
+  // Added Conditional so that no extra pagination bars are created if one already existed
+  if(document.querySelector('.pagination') != null){
+    let paginationDiv = document.querySelector('.pagination');
+    paginationDiv.parentNode.removeChild(paginationDiv);
+  }
+    //Initializes and attaches div and ul elements with the div element being assigned class, 'pagination'
   let div = document.createElement('div');
   div.setAttribute('class', 'pagination');
   document.querySelector(".page").appendChild(div);
@@ -33,9 +38,9 @@ function appendPageLinks(list) {
   div.appendChild(ul);
   // Initializing page Node to used within for loop
   let pageNode = "";
-  // For Loop to dynamically create page links based on number of Students
+  // For Loop to dynamically create page links based on list para
   //pageNum initialized to 1 to avoid a page '0'
-  for(let pageNum = 1; pageNum <= students.length; pageNum += itemsPerPage) {
+  for(let pageNum = 1; pageNum <= list.length; pageNum += itemsPerPage) {
     // Conditional used to set active class on first page
     if(pageNum === 1){
       //Math.ceil used to round up values to the next integer to allow 44, 64, etc users to be shown
@@ -66,7 +71,33 @@ function appendPageLinks(list) {
   }
 }
 
+function searchField() {
+  let div = document.createElement('div');
+  div.setAttribute('class', 'student-search');
+  document.querySelector('.page-header').appendChild(div);
+  div.innerHTML = '<input placeholder="Search for students..."><button>Search</button>';
+  const input = document.querySelector('input');
+  input.oninput = function (e) {
+      let studentNames = document.querySelectorAll('h3');
+      let searchResults = [];
+      //console.log(studentNames);
+      for(studentName of studentNames){
+        //console.log(studentName.textContent);
+        if(studentName.textContent.includes(e.target.value)) {
+          studentName.parentNode.parentElement.style.display = '';
+          searchResults.push(studentName.textContent);
+        } else {
+          studentName.parentNode.parentElement.style.display = 'none';
+        }
+      }
+      appendPageLinks(searchResults);
+    }
+}
+
+//initializes page with the first 10 students
 showPage(students, 1);
+searchField();
+//initializes the links with their behavior and existence
 appendPageLinks(students);
 
 
