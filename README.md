@@ -15,3 +15,16 @@ A function, that takes 2 parameters, displays a set number of students, based on
 * `endIndex` - The last item's index calculated by which page is currently being displayed
 
 ## appendPageLinks(list)
+A function that takes a `list` parameter and dynamically creates page links based on the list that's fed into it
+
+### Parameters
+* `list` - A list that helps calculate the number of links to get generated
+
+### Local variables
+* `div` - Helps create a `<div>` element to be appended to `index.html`
+* `ul` - Helps create a `<ul>` element to be appended to `index.html`. Also has `innerHTML` updated with `pageNode`
+* `pageNode` - Used to stored a string to be dynamically updated in a loop and then set the the `innerHTML` value of `ul`
+* `links` - Used to reference the links generated and then get looped to add an `onclick` function to each link
+
+## searchField()
+A function, that takes no parameters, creates and appends a search bar to `index.html`. Functionality is also added to the search bar in this function. With each keypress from the user, results are returned to the user with the page links updating to reflect how many results are returned. There is also a message displayed if no results are returned
