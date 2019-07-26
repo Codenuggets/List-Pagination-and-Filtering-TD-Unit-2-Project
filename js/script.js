@@ -60,7 +60,8 @@ function appendPageLinks(list) {
         }
       }
       // Calls show page when link is clicked feeding in the number of said link's textContent
-      showPage(students, e.target.textContent);
+      //After feedback, changed searchResults to list parameter
+      showPage(list, e.target.textContent);
     }
   }
 }
@@ -81,14 +82,15 @@ function searchField() {
       let searchResults = [];
 
       for(studentName of studentNames){
+        //Sets all the students to none before checking for matches
+        studentName.parentNode.parentElement.style.display = 'none';
         // Lower cases both the student's name and the inputted value and compares
         if(studentName.textContent.toLowerCase().includes((e.target.value).toLowerCase())) {
           // If there's a match, it sets the display property on the student item to show
           studentName.parentNode.parentElement.style.display = '';
           // Also pushes the value into the array to be used for pagination afer loop closes
-          searchResults.push(studentName.textContent);
-        } else {
-          studentName.parentNode.parentElement.style.display = 'none';
+          //After Feedback, changed from studentName.textContent to the grandparent node to work with showPage
+          searchResults.push(studentName.parentNode.parentNode);
         }
       }
       // After for loop, checks to see if the search results array is empty
@@ -108,8 +110,6 @@ function searchField() {
         }
         // Updates each list to update the links to reflect how many results are returned
         appendPageLinks(searchResults);
-        // Stimulates mouse click to update and only show 10 results
-        document.querySelector('.active').click();
       }
     }
 }
