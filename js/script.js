@@ -86,9 +86,7 @@ function searchField() {
         studentName.parentNode.parentElement.style.display = 'none';
         // Lower cases both the student's name and the inputted value and compares
         if(studentName.textContent.toLowerCase().includes((e.target.value).toLowerCase())) {
-          // If there's a match, it sets the display property on the student item to show
-          studentName.parentNode.parentElement.style.display = '';
-          // Also pushes the value into the array to be used for pagination afer loop closes
+          // Pushes the value into the array to be used for pagination afer loop closes
           //After Feedback, changed from studentName.textContent to the grandparent node to work with showPage
           searchResults.push(studentName.parentNode.parentNode);
         }
@@ -111,6 +109,7 @@ function searchField() {
         // Updates each list to update the links to reflect how many results are returned
         appendPageLinks(searchResults);
       }
+      showPage(searchResults, 1);
     }
 }
 
